@@ -23,7 +23,7 @@ import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
 import hanto.common.HantoPiece;
 import hanto.common.HantoPlayerColor;
-import hanto.studenttkkhuu.AbsMoveSparrow;
+import hanto.studenttkkhuu.common.AbsMoveSparrow;
 import hanto.studenttkkhuu.common.HantoCoordinateImpl;
 
 /**

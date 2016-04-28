@@ -14,6 +14,7 @@ import hanto.common.*;
 import hanto.studenttkkhuu.alpha.AlphaHantoGame;
 import hanto.studenttkkhuu.beta.BetaHantoGame;
 import hanto.studenttkkhuu.delta.DeltaHantoGame;
+import hanto.studenttkkhuu.epsilon.EpsilonHantoGame;
 import hanto.studenttkkhuu.gamma.GammaHantoGame;
 
 /**
@@ -83,6 +84,13 @@ public class HantoGameFactory
 			delta.setFirstMoveColor(movesFirst);
 			game = delta;
 			break;
+			
+		case EPSILON_HANTO:
+			EpsilonHantoGame epsilon = new EpsilonHantoGame();
+			epsilon.setFirstMoveColor(movesFirst);
+			game = epsilon;
+			break;
+			
 		default:
 			break;
 		}

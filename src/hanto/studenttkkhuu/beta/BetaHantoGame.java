@@ -13,9 +13,9 @@
 package hanto.studenttkkhuu.beta;
 
 import hanto.common.*;
-import hanto.studenttkkhuu.BaseHanto;
-import hanto.studenttkkhuu.MovePiece;
+import hanto.studenttkkhuu.common.BaseHanto;
 import hanto.studenttkkhuu.common.HantoPieceImpl;
+import hanto.studenttkkhuu.common.MovePiece;
 
 import static hanto.common.MoveResult.*;
 import static hanto.common.HantoPlayerColor.*;

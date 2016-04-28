@@ -116,6 +116,31 @@ public class HantoCoordinateImpl implements HantoCoordinate
 		return Arrays.asList(listOfNeighbor);
 		
 	}
+	
+	/**
+	 * Determine whether this HantoCoordinate is in a straight line with the target HantoCoordinate
+	 * @param target HantoCoordinate to be determined
+	 * @return true if they are in a straight line
+	 */
+	public boolean isStraightLine(HantoCoordinate target){
+		
+		if (target == null) {
+			return false;
+		}
+		
+		if (x == target.getX() || y == target.getY()) {
+			return true;
+		}
+		
+		int xDifference = Math.abs(x - target.getX());
+		int yDifference = Math.abs(y - target.getY());
+		
+		if (xDifference == yDifference) {
+			return true;
+		}
+		
+		return false;
+	}
 
 
 }

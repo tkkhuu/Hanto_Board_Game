@@ -1,4 +1,4 @@
-package hanto.studenttkkhuu;
+package hanto.studenttkkhuu.common;
 
 import static hanto.common.HantoPieceType.BUTTERFLY;
 
@@ -10,7 +10,6 @@ import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
 import hanto.common.HantoPiece;
 import hanto.common.HantoPlayerColor;
-import hanto.studenttkkhuu.common.HantoCoordinateImpl;
 
 public abstract class AbsMoveButterfly extends AbsMovePiece{
 

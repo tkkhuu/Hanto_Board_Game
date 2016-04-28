@@ -17,7 +17,7 @@ import java.util.Map;
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
-import hanto.studenttkkhuu.MovePiece;
+import hanto.studenttkkhuu.common.MovePiece;
 
 /**
  * A factory to create MovePiece classes

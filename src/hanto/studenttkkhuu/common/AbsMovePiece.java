@@ -10,12 +10,13 @@
  * Copyright ©2016 Gary F. Pollice
  *******************************************************************************/
 
-package hanto.studenttkkhuu;
+package hanto.studenttkkhuu.common;
 
 import static hanto.common.HantoPieceType.BUTTERFLY;
 import static hanto.common.HantoPlayerColor.BLUE;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +24,6 @@ import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
 import hanto.common.HantoPiece;
 import hanto.common.HantoPlayerColor;
-import hanto.studenttkkhuu.common.HantoCoordinateImpl;
 
 /**
  * An Abstract class for the MovePiece classes
@@ -195,5 +195,33 @@ public abstract class AbsMovePiece implements MovePiece{
 	
 	protected abstract List<HantoCoordinate> getPath(HantoCoordinate source, HantoCoordinate destination) throws HantoException;
 	
+	protected List<HantoCoordinate> getEmptyNeighborsOfSameColor(HantoPlayerColor color){
+		
+		List<HantoCoordinate> allPiecePlaced = new ArrayList<HantoCoordinate>();
+		List<HantoCoordinate> allNeighbors = new ArrayList<HantoCoordinate>();
+		List<HantoCoordinate> allEmptyNeighbors = new ArrayList<HantoCoordinate>();
+		
+		for (HantoPiece hp : pieces.keySet()) {
+			if(hp.getColor() == color && pieces.get(hp) != null) {
+				allPiecePlaced.add(pieces.get(hp));
+			}
+		}
+		
+		for (HantoCoordinate hc : allPiecePlaced) {
+			final HantoCoordinateImpl temp_hc = new HantoCoordinateImpl(hc);
+			allNeighbors.addAll(temp_hc.getNeighbors());
+		}
+		
+		allNeighbors = new ArrayList<HantoCoordinate>(new LinkedHashSet<HantoCoordinate>(allNeighbors));
+		
+		for (HantoCoordinate hc : allNeighbors) {
+			if (getPieceAt(hc) == null) {
+				allEmptyNeighbors.add(hc);
+			}
+		}
+		
+		return allEmptyNeighbors;
+		
+	}
 
 }

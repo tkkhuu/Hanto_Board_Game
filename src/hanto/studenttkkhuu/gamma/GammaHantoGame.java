@@ -21,15 +21,13 @@ import static hanto.common.MoveResult.DRAW;
 import static hanto.common.MoveResult.OK;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
 import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
 import hanto.common.MoveResult;
-import hanto.studenttkkhuu.BaseHanto;
-import hanto.studenttkkhuu.MovePiece;
+import hanto.studenttkkhuu.common.BaseHanto;
 import hanto.studenttkkhuu.common.HantoPieceImpl;
 
 
@@ -40,9 +38,11 @@ import hanto.studenttkkhuu.common.HantoPieceImpl;
  */
 public class GammaHantoGame extends BaseHanto{
 	
-	private static MovablePieceFactoryGamma mpFactory = MovablePieceFactoryGamma.getInstance();
 	
 	public GammaHantoGame() {
+		
+		mpFactory = new MovablePieceFactoryGamma();
+		
 		pieces = new HashMap<HantoPiece, HantoCoordinate>();
 		
 		pieces.put(redButterfly, null);
@@ -69,19 +69,7 @@ public class GammaHantoGame extends BaseHanto{
 			throw new HantoException("GammaHanto does not support this piece type");
 		}
 
-		MovePiece mp = mpFactory.makeMovablePiece(pieceType, pieces, moveCount);
-
-		Map<HantoPiece, HantoCoordinate> updatedList = mp.movePiece(source, destination, whichColor);
-
-		if (updatedList == null) {
-			throw new HantoException("Invalid move for piece type: " + pieceType.toString());
-		} else {
-			pieces = updatedList;
-		}
-
-		switchPlayerTurn();
-		
-		incrementMoveCount();
+		createMove(pieceType, source, destination);
 
 		return checkGameOverCondition();
 		

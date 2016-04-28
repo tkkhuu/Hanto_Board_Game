@@ -17,28 +17,14 @@ import java.util.Map;
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
-import hanto.studenttkkhuu.MovePiece;
+import hanto.studenttkkhuu.common.MovePiece;
+import hanto.studenttkkhuu.common.MovePieceFactory;
 
 /**
  * A factory that creates MovePiece classes in Delta Hanto
  *
  */
-public class MovablePieceFactoryDelta {
-	private static final MovablePieceFactoryDelta instance = new MovablePieceFactoryDelta();
-
-	/**
-	 * Default private descriptor.
-	 */
-	private MovablePieceFactoryDelta() {
-		// Empty, but the private constructor is necessary for the singleton.
-	}
-
-	/**
-	 * @return the instance
-	 */
-	public static MovablePieceFactoryDelta getInstance() {
-		return instance;
-	}
+public class MovablePieceFactoryDelta implements MovePieceFactory{
 	
 	/**
 	 * Factory that creates MovablePiece classes
@@ -51,6 +37,7 @@ public class MovablePieceFactoryDelta {
 	 *            Number of move made
 	 * @return The MovablePiece class of the corresponding type
 	 */
+	@Override
 	public MovePiece makeMovablePiece(HantoPieceType pieceType, Map<HantoPiece, HantoCoordinate> listOfCurrentMove,
 			int moveCount) {
 		

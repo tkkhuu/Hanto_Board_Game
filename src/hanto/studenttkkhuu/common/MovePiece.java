@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
 
-package hanto.studenttkkhuu;
+package hanto.studenttkkhuu.common;
 
 import java.util.Map;
 

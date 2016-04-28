@@ -20,6 +20,7 @@ import hanto.common.HantoPiece;
 import static hanto.common.HantoPieceType.BUTTERFLY;
 import hanto.common.HantoPlayerColor;
 import hanto.studenttkkhuu.*;
+import hanto.studenttkkhuu.common.AbsMoveButterfly;
 import hanto.studenttkkhuu.common.HantoCoordinateImpl;
 
 /**

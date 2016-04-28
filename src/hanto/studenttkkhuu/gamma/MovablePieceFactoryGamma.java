@@ -15,30 +15,15 @@ import java.util.Map;
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
-import hanto.studenttkkhuu.HantoGameFactory;
-import hanto.studenttkkhuu.MovePiece;
+import hanto.studenttkkhuu.common.MovePiece;
+import hanto.studenttkkhuu.common.MovePieceFactory;
 
 /**
  * A factory class that make MovablePiece Classes
  * @author Tri
  *
  */
-public class MovablePieceFactoryGamma extends HantoGameFactory{
-	private static final MovablePieceFactoryGamma instance = new MovablePieceFactoryGamma();
-
-	/**
-	 * Default private descriptor.
-	 */
-	private MovablePieceFactoryGamma() {
-		// Empty, but the private constructor is necessary for the singleton.
-	}
-
-	/**
-	 * @return the instance
-	 */
-	public static MovablePieceFactoryGamma getInstance() {
-		return instance;
-	}
+public class MovablePieceFactoryGamma implements MovePieceFactory{
 
 	/**
 	 * Factory that creates MovablePiece classes

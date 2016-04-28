@@ -10,7 +10,7 @@
  * Copyright ©2016 Gary F. Pollice
  *******************************************************************************/
 
-package hanto.studenttkkhuu;
+package hanto.studenttkkhuu.common;
 
 import static hanto.common.HantoPieceType.BUTTERFLY;
 import static hanto.common.HantoPlayerColor.*;
@@ -22,12 +22,12 @@ import static hanto.common.MoveResult.RED_WINS;
 import java.util.Map;
 
 import hanto.common.HantoCoordinate;
+import hanto.common.HantoException;
 import hanto.common.HantoGame;
 import hanto.common.HantoPiece;
+import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
-import hanto.studenttkkhuu.common.HantoCoordinateImpl;
-import hanto.studenttkkhuu.common.HantoPieceImpl;
 
 /**
  * An Abstract Class for different version of HantoGame
@@ -35,6 +35,7 @@ import hanto.studenttkkhuu.common.HantoPieceImpl;
  */
 public abstract class BaseHanto implements HantoGame {
 	
+	protected MovePieceFactory mpFactory;
 	protected boolean gameOver = false;
 	protected HantoPlayerColor whichColor = BLUE;
 	protected int moveCount = 0;
@@ -48,7 +49,7 @@ public abstract class BaseHanto implements HantoGame {
 	/**
 	 * Switch turn between RED and BLUE player
 	 */
-	protected void switchPlayerTurn(){
+	protected void switchPlayerTurn() {
 		whichColor = ((whichColor == RED) ? BLUE : RED);
 	}
 	
@@ -160,5 +161,23 @@ public abstract class BaseHanto implements HantoGame {
 	{
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	protected void createMove(HantoPieceType pieceType, HantoCoordinate source, HantoCoordinate destination)
+			throws HantoException {
+		
+		MovePiece mp = mpFactory.makeMovablePiece(pieceType, pieces, moveCount);
+
+		Map<HantoPiece, HantoCoordinate> updatedList = mp.movePiece(source, destination, whichColor);
+
+		if (updatedList == null) {
+			throw new HantoException("Invalid move for piece type: " + pieceType.toString());
+		} else {
+			pieces = updatedList;
+		}
+
+		switchPlayerTurn();
+		
+		incrementMoveCount();
 	}
 }

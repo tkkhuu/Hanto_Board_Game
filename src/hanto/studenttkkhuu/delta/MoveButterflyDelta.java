@@ -16,7 +16,7 @@ import java.util.Map;
 
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoPiece;
-import hanto.studenttkkhuu.AbsMoveButterfly;
+import hanto.studenttkkhuu.common.AbsMoveButterfly;
 
 /**
  * A class that takes care of moving the butterfly piece in Delta
