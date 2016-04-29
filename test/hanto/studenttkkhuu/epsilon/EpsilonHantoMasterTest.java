@@ -142,6 +142,11 @@ public class EpsilonHantoMasterTest {
 
 	// ================================== Tests ==================================
 
+	@Test (expected = HantoException.class)
+	public void placeButterflyNotAtOrigin() throws HantoException {
+		game.makeMove(BUTTERFLY, null, makeCoordinate(1, 0));
+	}
+	
 	@Test
 	public void redPlacesButterflyFirst() throws HantoException {
 		game = factory.makeHantoGame(HantoGameID.EPSILON_HANTO, RED);
@@ -677,7 +682,7 @@ public class EpsilonHantoMasterTest {
 	@Test (expected=HantoException.class)
 	public void tryToMoveHorseBeforeButterflyIsOnBoard() throws HantoException
 	{
-		makeMoves(md(HORSE, 0, 0), md (BUTTERFLY, 0, 1), md(CRAB, 0, 0, 0, 2));
+		makeMoves(md(HORSE, 0, 0), md (BUTTERFLY, 0, 1), md(HORSE, 0, 0, 0, 2));
 	}
 	
 	@Test (expected = HantoPrematureResignationException.class)
@@ -713,6 +718,31 @@ public class EpsilonHantoMasterTest {
 		game.makeMove(null, null, null);
 	}
 	
+	@Test (expected = HantoPrematureResignationException.class)
+	public void resignWhenAHorseCanStillBePlaced() throws HantoException
+	{
+		makeMoves(md(BUTTERFLY, 0, 0), md (BUTTERFLY, 0, 1), 
+				md(SPARROW, -1, 0), md(SPARROW, 1, 1),
+				md(SPARROW, 1, -1), md(SPARROW, -1, 2),
+				md(HORSE, -2, 0), md(HORSE, 2, 1),
+				md(CRAB, 2, -2), md(CRAB, -1, 3));
+		game.makeMove(null, null, null);
+	}
+	
+	@Test (expected = HantoPrematureResignationException.class)
+	public void resignWhenAHorseCanStillMakeMove() throws HantoException
+	{
+		makeMoves(md(BUTTERFLY, 0, 0), md (BUTTERFLY, 0, 1), 
+				md(SPARROW, -1, 0), md(SPARROW, 1, 1),
+				md(SPARROW, 1, -1), md(SPARROW, -1, 2),
+				md(HORSE, -2, 0), md(HORSE, 2, 1),
+				md(HORSE, 2, -2), md(HORSE, -2, 3),
+				md(CRAB, -3, 0), md(CRAB, 3, 1),
+				md(CRAB, 3, -3), md(CRAB, -3, 4),
+				md(HORSE, -4, 0), md(HORSE, 4, 1),
+				md(HORSE, 4, -4), md(HORSE, -4, 5));
+		game.makeMove(null, null, null);
+	}
 	
 	@Test (expected = HantoPrematureResignationException.class)
 	public void resignWhenACrabCanStillBePlaced() throws HantoException
@@ -720,8 +750,14 @@ public class EpsilonHantoMasterTest {
 		makeMoves(md(BUTTERFLY, 0, 0), md (BUTTERFLY, 0, 1), 
 				md(SPARROW, -1, 0), md(SPARROW, 1, 1),
 				md(SPARROW, 1, -1), md(SPARROW, -1, 2),
-				md(CRAB, -2, 0), md(CRAB, 2, 1),
-				md(CRAB, 2, -2), md(CRAB, -1, 3));
+				md(HORSE, -2, 0), md(HORSE, 2, 1),
+				md(HORSE, 2, -2), md(HORSE, -2, 3),
+				md(CRAB, -3, 0), md(CRAB, 3, 1),
+				md(CRAB, 3, -3), md(CRAB, -3, 4),
+				md(HORSE, -4, 0), md(HORSE, 4, 1),
+				md(HORSE, 4, -4), md(HORSE, -4, 5),
+				md(CRAB, -5, 0), md(CRAB, 5, 1),
+				md(CRAB, 5, -5), md(CRAB, -5, 6));
 		game.makeMove(null, null, null);
 	}
 	
@@ -731,12 +767,16 @@ public class EpsilonHantoMasterTest {
 		makeMoves(md(BUTTERFLY, 0, 0), md (BUTTERFLY, 0, 1), 
 				md(SPARROW, -1, 0), md(SPARROW, 1, 1),
 				md(SPARROW, 1, -1), md(SPARROW, -1, 2),
-				md(CRAB, -2, 0), md(CRAB, 2, 1),
-				md(CRAB, 2, -2), md(CRAB, -2, 3),
+				md(HORSE, -2, 0), md(HORSE, 2, 1),
+				md(HORSE, 2, -2), md(HORSE, -2, 3),
 				md(CRAB, -3, 0), md(CRAB, 3, 1),
 				md(CRAB, 3, -3), md(CRAB, -3, 4),
-				md(CRAB, -4, 0), md(CRAB, 4, 1),
-				md(CRAB, 4, -4), md(CRAB, -4, 5));
+				md(HORSE, -4, 0), md(HORSE, 4, 1),
+				md(HORSE, 4, -4), md(HORSE, -4, 5),
+				md(CRAB, -5, 0), md(CRAB, 5, 1),
+				md(CRAB, 5, -5), md(CRAB, -5, 6),
+				md(CRAB, -6, 0), md(CRAB, 6, 1),
+				md(CRAB, 6, -6), md(CRAB, -6, 7));
 		game.makeMove(null, null, null);
 	}
 }

@@ -94,49 +94,51 @@ public class EpsilonHantoGame extends BaseHanto {
 		
 		// ========== Check if player can still move butterfly ==========
 		try {
-			
 			createMove(BUTTERFLY, source, destination);
+			whichColor = whichColor == RED ? BLUE : RED;
+			moveCount--;
 		} catch (HantoException he) {
 			if (he instanceof HantoPrematureResignationException) {
 				throw new HantoPrematureResignationException();
 			}
 		}
-		whichColor = whichColor == RED ? BLUE : RED;
-		moveCount--;
+		
 			
 		// ========== Check if player can still move sparrow ==========
 		try {
 			// Player can still move sparrow
 			createMove(SPARROW, source, destination);
+			whichColor = whichColor == RED ? BLUE : RED;
+			moveCount--;
 		} catch (HantoException he) {
 			if (he instanceof HantoPrematureResignationException) {
 				throw new HantoPrematureResignationException();
 			}
 		}
-		whichColor = whichColor == RED ? BLUE : RED;
-		moveCount--;
+		
 		
 		// ========== Check if player can still move horse ==========
 		try {
 			createMove(HORSE, source, destination);
+			whichColor = whichColor == RED ? BLUE : RED;
+			moveCount--;
 		} catch (HantoException he) {
 			if (he instanceof HantoPrematureResignationException) {
 				throw new HantoPrematureResignationException();
 			}
 		}
-		whichColor = whichColor == RED ? BLUE : RED;
-		moveCount--;
 		
 		// ========== Check if player can still move crab ==========
 		try {
 			createMove(CRAB, source, destination);
+			whichColor = whichColor == RED ? BLUE : RED;
+			moveCount--;
 		} catch (HantoException he) {
 			if (he instanceof HantoPrematureResignationException) {
 				throw new HantoPrematureResignationException();
 			}
 		}
-		whichColor = whichColor == RED ? BLUE : RED;
-		moveCount--;
+		
 		
 	}
 }

@@ -150,10 +150,9 @@ public class MoveSparrowEpsilon extends AbsMoveSparrow{
 				try{
 					movePiece(null, toHex, color);
 				} catch (HantoException he) {
-					pieces.put(sparrowPieceNotPlaced, null);
 					numberOfInvalidPath++;
 				}
-				
+				pieces.put(sparrowPieceNotPlaced, null);
 				if (numberOfInvalidPath < possibleMoves.size()) {
 					throw new HantoPrematureResignationException();
 				}
@@ -178,11 +177,11 @@ public class MoveSparrowEpsilon extends AbsMoveSparrow{
 				try {
 					movePiece(sparrowPieceHCI, toHex, color);
 				} catch (HantoException he) {
-					pieces.put(sparrowPiece, sparrowPieceHCI);
+					
 					numberOfInvalidPath++;
 				}
 			}
-
+			pieces.put(sparrowPiece, sparrowPieceHCI);
 			if (numberOfInvalidPath < possibleMoves.size()) {
 				throw new HantoPrematureResignationException();
 			}

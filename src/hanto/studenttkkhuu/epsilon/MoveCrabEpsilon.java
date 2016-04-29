@@ -104,12 +104,11 @@ public class MoveCrabEpsilon extends AbsMoveCrab{
 				try {
 					movePiece(crabPieceHCI, toHex, color);
 				} catch (HantoException he) {
-					pieces.put(crabPiece, crabPieceHCI);
-					System.out.println(he.getMessage() + " X: " + toHex.getX() + " Y: " + toHex.getY());
+					
 					numberOfInvalidPath++;
 				}
 			}
-
+			pieces.put(crabPiece, crabPieceHCI);
 			if (numberOfInvalidPath < possibleMoves.size()) {
 				throw new HantoPrematureResignationException();
 			}

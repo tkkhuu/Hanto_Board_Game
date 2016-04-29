@@ -106,7 +106,6 @@ public abstract class AbsMovePiece implements MovePiece{
 			throw new HantoException("The destination Hex is disconnected");
 		}
 
-		
 	}
 	
 	/**
