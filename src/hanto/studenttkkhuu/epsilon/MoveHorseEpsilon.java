@@ -187,7 +187,7 @@ public class MoveHorseEpsilon extends AbsMoveHorse{
 			}
 		}
 		if (horsePieceNotPlaced != null) {
-			List<HantoCoordinate> possibleMoves = getEmptyNeighborsOfSameColor(color);
+			List<HantoCoordinate> possibleMoves = getEmptyNeighborsOfSameColor(color, pieces);
 			int numberOfInvalidPath = 0;
 			for (HantoCoordinate toHex : possibleMoves) {
 				try{
@@ -226,9 +226,9 @@ public class MoveHorseEpsilon extends AbsMoveHorse{
 					
 					numberOfInvalidPath++;
 				}
-				
+				pieces.put(horsePiece, horsePieceHCI);
 			}
-			pieces.put(horsePiece, horsePieceHCI);
+			
 			if (numberOfInvalidPath < possibleMoves.size()) {
 				throw new HantoPrematureResignationException();
 			}
@@ -310,5 +310,42 @@ public class MoveHorseEpsilon extends AbsMoveHorse{
 			}
 		}
 		return possibleMoves;
+	}
+	
+	public List<HantoCoordinate> getPossibleMoves(HantoPlayerColor color, Map<HantoPiece, HantoCoordinate> pieces, HantoPiece horsePiece) {
+		if (pieces.get(horsePiece) == null) { // This piece has not been placed
+			List<HantoCoordinate> possibleMoves = getEmptyNeighborsOfSameColor(color, pieces);
+			List<HantoCoordinate> possibleValidMoves = new ArrayList<HantoCoordinate>();
+			for (HantoCoordinate toHex : possibleMoves) {
+				try{
+					movePiece(null, toHex, color);
+					possibleValidMoves.add(toHex);
+				} catch (HantoException he) {
+					he.printStackTrace();
+				}
+				pieces.put(horsePiece, null);
+			}
+			
+			return possibleValidMoves;
+		} 
+		
+		else {
+			final HantoCoordinateImpl horsePieceHCI = new HantoCoordinateImpl(pieces.get(horsePiece));
+			List<HantoCoordinate> possibleMoves = getPossibleMove(horsePieceHCI);
+			List<HantoCoordinate> possibleValidMoves = new ArrayList<HantoCoordinate>();
+			
+			for (HantoCoordinate toHex : possibleMoves) {
+				try {
+					movePiece(horsePieceHCI, toHex, color);
+					possibleValidMoves.add(toHex);
+				} catch (HantoException he) {
+					he.printStackTrace();
+				}
+				pieces.put(horsePiece, horsePieceHCI);
+			}
+			
+			return possibleValidMoves;
+			
+		}
 	}
 }

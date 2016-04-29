@@ -33,7 +33,7 @@ public class MoveButterflyEpsilon extends AbsMoveButterfly{
 		// The player made a resignation
 		if (source == null && destination == null) {
 			
-			checkAvailableMove(color);
+			checkAvailableMove(color, pieces);
 			
 			return pieces;
 		}
@@ -41,7 +41,7 @@ public class MoveButterflyEpsilon extends AbsMoveButterfly{
 		return super.movePiece(source, destination, color);
 	}
 
-	private void checkAvailableMove(HantoPlayerColor color)
+	private void checkAvailableMove(HantoPlayerColor color, Map<HantoPiece, HantoCoordinate> pieces)
 			throws HantoPrematureResignationException {
 		
 		// If Butterfly has not been placed, reject the resignation because
@@ -57,14 +57,16 @@ public class MoveButterflyEpsilon extends AbsMoveButterfly{
 			try{
 				movePiece(butterflyPieceHCI, toHex, color);
 			} catch (HantoException he) {
-				pieces.put(butterflyPiece, butterflyPieceHCI);
 				numberOfInvalidPath++;
 			}
+			pieces.put(butterflyPiece, butterflyPieceHCI);
 		}
 		
 		if (numberOfInvalidPath < possibleMoves.size()) {
 			throw new HantoPrematureResignationException();
 		}
 	}
+	
+
 
 }

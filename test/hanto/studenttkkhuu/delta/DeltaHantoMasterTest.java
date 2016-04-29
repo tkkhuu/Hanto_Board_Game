@@ -22,6 +22,7 @@ import hanto.studenttkkhuu.HantoGameFactory;
 public class DeltaHantoMasterTest {
 
 	class MoveData {
+		
 		final HantoPieceType type;
 		final HantoCoordinate from, to;
 		

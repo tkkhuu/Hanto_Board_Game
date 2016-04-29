@@ -194,7 +194,7 @@ public abstract class AbsMovePiece implements MovePiece{
 	
 	protected abstract List<HantoCoordinate> getPath(HantoCoordinate source, HantoCoordinate destination) throws HantoException;
 	
-	protected List<HantoCoordinate> getEmptyNeighborsOfSameColor(HantoPlayerColor color){
+	protected List<HantoCoordinate> getEmptyNeighborsOfSameColor(HantoPlayerColor color, Map<HantoPiece, HantoCoordinate> pieces){
 		
 		List<HantoCoordinate> allPiecePlaced = new ArrayList<HantoCoordinate>();
 		List<HantoCoordinate> allNeighbors = new ArrayList<HantoCoordinate>();

@@ -12,14 +12,14 @@
 
 package hanto.studenttkkhuu.beta;
 
+import static hanto.common.HantoPieceType.BUTTERFLY;
+
 import java.util.Map;
 
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
 import hanto.common.HantoPiece;
-import static hanto.common.HantoPieceType.BUTTERFLY;
 import hanto.common.HantoPlayerColor;
-import hanto.studenttkkhuu.*;
 import hanto.studenttkkhuu.common.AbsMoveButterfly;
 import hanto.studenttkkhuu.common.HantoCoordinateImpl;
 

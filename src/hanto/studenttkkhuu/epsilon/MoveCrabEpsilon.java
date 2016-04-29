@@ -69,7 +69,7 @@ public class MoveCrabEpsilon extends AbsMoveCrab{
 			}
 		}
 		if (crabPieceNotPlaced != null) {
-			List<HantoCoordinate> possibleMoves = getEmptyNeighborsOfSameColor(color);
+			List<HantoCoordinate> possibleMoves = getEmptyNeighborsOfSameColor(color, pieces);
 			int numberOfInvalidPath = 0;
 			for (HantoCoordinate toHex : possibleMoves) {
 				try{
@@ -107,11 +107,49 @@ public class MoveCrabEpsilon extends AbsMoveCrab{
 					
 					numberOfInvalidPath++;
 				}
+				pieces.put(crabPiece, crabPieceHCI);
 			}
-			pieces.put(crabPiece, crabPieceHCI);
+			
 			if (numberOfInvalidPath < possibleMoves.size()) {
 				throw new HantoPrematureResignationException();
 			}
+		}
+	}
+	
+	public List<HantoCoordinate> getPossibleMoves(HantoPlayerColor color, Map<HantoPiece, HantoCoordinate> pieces, HantoPiece crabPiece) {
+		if (pieces.get(crabPiece) == null) { // This piece has not been placed
+			List<HantoCoordinate> possibleMoves = getEmptyNeighborsOfSameColor(color, pieces);
+			List<HantoCoordinate> possibleValidMoves = new ArrayList<HantoCoordinate>();
+			for (HantoCoordinate toHex : possibleMoves) {
+				try{
+					movePiece(null, toHex, color);
+					possibleValidMoves.add(toHex);
+				} catch (HantoException he) {
+					he.printStackTrace();
+				}
+				pieces.put(crabPiece, null);
+			}
+			
+			return possibleValidMoves;
+		} 
+		
+		else {
+			final HantoCoordinateImpl crabPieceHCI = new HantoCoordinateImpl(pieces.get(crabPiece));
+			List<HantoCoordinate> possibleMoves = crabPieceHCI.getNeighbors();
+			List<HantoCoordinate> possibleValidMoves = new ArrayList<HantoCoordinate>();
+			
+			for (HantoCoordinate toHex : possibleMoves) {
+				try {
+					movePiece(crabPieceHCI, toHex, color);
+					possibleValidMoves.add(toHex);
+				} catch (HantoException he) {
+					he.printStackTrace();
+				}
+				pieces.put(crabPiece, crabPieceHCI);
+			}
+			
+			return possibleValidMoves;
+			
 		}
 	}
 

@@ -144,7 +144,7 @@ public class MoveSparrowEpsilon extends AbsMoveSparrow{
 			}
 		}
 		if (sparrowPieceNotPlaced != null) {
-			List<HantoCoordinate> possibleMoves = getEmptyNeighborsOfSameColor(color);
+			List<HantoCoordinate> possibleMoves = getEmptyNeighborsOfSameColor(color, pieces);
 			int numberOfInvalidPath = 0;
 			for (HantoCoordinate toHex : possibleMoves) {
 				try{
@@ -180,8 +180,9 @@ public class MoveSparrowEpsilon extends AbsMoveSparrow{
 					
 					numberOfInvalidPath++;
 				}
+				pieces.put(sparrowPiece, sparrowPieceHCI);
 			}
-			pieces.put(sparrowPiece, sparrowPieceHCI);
+			
 			if (numberOfInvalidPath < possibleMoves.size()) {
 				throw new HantoPrematureResignationException();
 			}
@@ -253,4 +254,40 @@ public class MoveSparrowEpsilon extends AbsMoveSparrow{
 		
 	}
 
+	public List<HantoCoordinate> getPossibleMoves(HantoPlayerColor color, Map<HantoPiece, HantoCoordinate> pieces, HantoPiece sparrowPiece) {
+		if (pieces.get(sparrowPiece) == null) { // This piece has not been placed
+			List<HantoCoordinate> possibleMoves = getEmptyNeighborsOfSameColor(color, pieces);
+			List<HantoCoordinate> possibleValidMoves = new ArrayList<HantoCoordinate>();
+			for (HantoCoordinate toHex : possibleMoves) {
+				try{
+					movePiece(null, toHex, color);
+					possibleValidMoves.add(toHex);
+				} catch (HantoException he) {
+					he.printStackTrace();
+				}
+				pieces.put(sparrowPiece, null);
+			}
+			
+			return possibleValidMoves;
+		} 
+		
+		else {
+			final HantoCoordinateImpl sparrowPieceHCI = new HantoCoordinateImpl(pieces.get(sparrowPiece));
+			List<HantoCoordinate> possibleMoves = getPossibleMove(sparrowPieceHCI);
+			List<HantoCoordinate> possibleValidMoves = new ArrayList<HantoCoordinate>();
+			
+			for (HantoCoordinate toHex : possibleMoves) {
+				try {
+					movePiece(sparrowPieceHCI, toHex, color);
+					possibleValidMoves.add(toHex);
+				} catch (HantoException he) {
+					he.printStackTrace();
+				}
+				pieces.put(sparrowPiece, sparrowPieceHCI);
+			}
+			
+			return possibleValidMoves;
+			
+		}
+	}
 }
