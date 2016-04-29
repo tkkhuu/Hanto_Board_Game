@@ -695,11 +695,33 @@ public class EpsilonHantoMasterTest {
 	}
 	
 	@Test (expected = HantoPrematureResignationException.class)
-	public void resignWhenACrabCanStillBePlaced() throws HantoException
+	public void resignWhenASparrowCanBePlaced() throws HantoException
 	{
 		makeMoves(md(BUTTERFLY, 0, 0), md (BUTTERFLY, 0, 1), 
 				md(CRAB, -1, 0), md(CRAB, 1, 1),
-				md(CRAB, 1, -1), md(CRAB, -1, 2));
+				md(CRAB, 1, -1), md(CRAB, -1, 2),
+				md(CRAB, -2, 0));
+		game.makeMove(null, null, null);
+	}
+	
+	@Test (expected = HantoPrematureResignationException.class)
+	public void resignWhenASparrowCanBeMoved() throws HantoException
+	{
+		makeMoves(md(BUTTERFLY, 0, 0), md (BUTTERFLY, 0, 1), 
+				md(SPARROW, -1, 0), md(SPARROW, 1, 1),
+				md(SPARROW, 1, -1), md(SPARROW, -1, 2));
+		game.makeMove(null, null, null);
+	}
+	
+	
+	@Test (expected = HantoPrematureResignationException.class)
+	public void resignWhenACrabCanStillBePlaced() throws HantoException
+	{
+		makeMoves(md(BUTTERFLY, 0, 0), md (BUTTERFLY, 0, 1), 
+				md(SPARROW, -1, 0), md(SPARROW, 1, 1),
+				md(SPARROW, 1, -1), md(SPARROW, -1, 2),
+				md(CRAB, -2, 0), md(CRAB, 2, 1),
+				md(CRAB, 2, -2), md(CRAB, -1, 3));
 		game.makeMove(null, null, null);
 	}
 	
@@ -707,12 +729,14 @@ public class EpsilonHantoMasterTest {
 	public void resignWhenACrabCanStillMakeAMove() throws HantoException
 	{
 		makeMoves(md(BUTTERFLY, 0, 0), md (BUTTERFLY, 0, 1), 
-				md(CRAB, -1, 0), md(CRAB, 1, 1),
-				md(CRAB, 1, -1), md(CRAB, -1, 2),
+				md(SPARROW, -1, 0), md(SPARROW, 1, 1),
+				md(SPARROW, 1, -1), md(SPARROW, -1, 2),
 				md(CRAB, -2, 0), md(CRAB, 2, 1),
 				md(CRAB, 2, -2), md(CRAB, -2, 3),
-				md(CRAB, -1, -1), md(CRAB, 1, 2),
-				md(CRAB, 1, -2), md(CRAB, -1, 3));
+				md(CRAB, -3, 0), md(CRAB, 3, 1),
+				md(CRAB, 3, -3), md(CRAB, -3, 4),
+				md(CRAB, -4, 0), md(CRAB, 4, 1),
+				md(CRAB, 4, -4), md(CRAB, -4, 5));
 		game.makeMove(null, null, null);
 	}
 }

@@ -58,7 +58,6 @@ public class MoveButterflyEpsilon extends AbsMoveButterfly{
 				movePiece(butterflyPieceHCI, toHex, color);
 			} catch (HantoException he) {
 				pieces.put(butterflyPiece, butterflyPieceHCI);
-//				System.out.println(he.getMessage() + "X: " + toHex.getX() + " Y: " + toHex.getY());
 				numberOfInvalidPath++;
 			}
 		}

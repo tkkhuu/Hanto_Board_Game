@@ -92,16 +92,51 @@ public class EpsilonHantoGame extends BaseHanto {
 
 	private void checkValidResignation(HantoCoordinate source, HantoCoordinate destination) throws HantoException, HantoPrematureResignationException {
 		
+		// ========== Check if player can still move butterfly ==========
+		try {
+			
+			createMove(BUTTERFLY, source, destination);
+		} catch (HantoException he) {
+			if (he instanceof HantoPrematureResignationException) {
+				throw new HantoPrematureResignationException();
+			}
+		}
+		whichColor = whichColor == RED ? BLUE : RED;
+		moveCount--;
+			
+		// ========== Check if player can still move sparrow ==========
+		try {
+			// Player can still move sparrow
+			createMove(SPARROW, source, destination);
+		} catch (HantoException he) {
+			if (he instanceof HantoPrematureResignationException) {
+				throw new HantoPrematureResignationException();
+			}
+		}
+		whichColor = whichColor == RED ? BLUE : RED;
+		moveCount--;
 		
-		// Player can still move butterfly
-		createMove(BUTTERFLY, source, destination);
+		// ========== Check if player can still move horse ==========
+		try {
+			createMove(HORSE, source, destination);
+		} catch (HantoException he) {
+			if (he instanceof HantoPrematureResignationException) {
+				throw new HantoPrematureResignationException();
+			}
+		}
+		whichColor = whichColor == RED ? BLUE : RED;
+		moveCount--;
 		
-		// Player can still move crab
-		createMove(CRAB, source, destination);
-		
-		// Player can still move sparrow
-		
-		// Player can still move horse
+		// ========== Check if player can still move crab ==========
+		try {
+			createMove(CRAB, source, destination);
+		} catch (HantoException he) {
+			if (he instanceof HantoPrematureResignationException) {
+				throw new HantoPrematureResignationException();
+			}
+		}
+		whichColor = whichColor == RED ? BLUE : RED;
+		moveCount--;
 		
 	}
 }

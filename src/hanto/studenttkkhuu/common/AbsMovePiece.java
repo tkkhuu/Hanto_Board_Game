@@ -66,7 +66,7 @@ public abstract class AbsMovePiece implements MovePiece{
 	 * @param destination
 	 * @return True if a disconnection is detected
 	 */
-	protected boolean isDestinationDisconnected(HantoCoordinate destination) {
+	protected boolean isDestinationConnected(HantoCoordinate destination) {
 		for (HantoCoordinate hc : pieces.values()) {
 			if (hc != null) {
 				if (isNeighborHex(destination, hc)) {
@@ -102,7 +102,7 @@ public abstract class AbsMovePiece implements MovePiece{
 			throw new HantoException("The destination Hex is currently occupied");
 		}
 
-		if (!isDestinationDisconnected(to) && (moveCount > 0)) {
+		if (!isDestinationConnected(to) && (moveCount > 0)) {
 			throw new HantoException("The destination Hex is disconnected");
 		}
 
