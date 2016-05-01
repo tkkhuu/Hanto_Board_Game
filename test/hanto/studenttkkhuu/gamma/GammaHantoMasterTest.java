@@ -153,6 +153,15 @@ public class GammaHantoMasterTest
 	}
 	
 	@Test(expected=HantoException.class)
+	public void tryToMoveWhenNotEnoughSpaceSparrow() throws HantoException
+	{
+		makeMoves(md(SPARROW, 0, 0), md(BUTTERFLY, 0, 1), 
+				md(BUTTERFLY, -1, 0), md(SPARROW, 0, 2),
+				md(SPARROW, 1, -1), md(SPARROW, 0, 3),
+				md(SPARROW, 0, 0, 0, -1));
+	}
+	
+	@Test(expected=HantoException.class)
 	public void tryToUseTooManyButterflies() throws HantoException
 	{
 		makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(BUTTERFLY, 0, -1));

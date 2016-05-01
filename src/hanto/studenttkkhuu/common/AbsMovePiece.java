@@ -98,9 +98,16 @@ public abstract class AbsMovePiece implements MovePiece{
 			}
 		}
 		
-		if (pieces.containsValue(to)) {
-			throw new HantoException("The destination Hex is currently occupied");
+		for (HantoCoordinate hc : pieces.values()) {
+			if (hc != null && hc.getX() == to.getX() && hc.getY() == to.getY()) {
+				throw new HantoException("The destination Hex is currently occupied");
+			}
 		}
+		
+		
+//		if (pieces.containsValue(to)) {
+//			throw new HantoException("The destination Hex is currently occupied");
+//		}
 
 		if (!isDestinationConnected(to) && (moveCount > 0)) {
 			throw new HantoException("The destination Hex is disconnected");
@@ -192,8 +199,22 @@ public abstract class AbsMovePiece implements MovePiece{
 	 */
 	protected abstract HantoPiece moveToHex(List<HantoCoordinate> path, HantoPlayerColor color) throws HantoException;
 	
+	/**
+	 * This function finds the valid path for a piece to move, usually needed in walking
+	 * @param source Coordinate of the current piece
+	 * @param destination Coordinate of the destination
+	 * @return List of HantoCoordinate representing the path
+	 * @throws HantoException Any exception encountered
+	 */
 	protected abstract List<HantoCoordinate> getPath(HantoCoordinate source, HantoCoordinate destination) throws HantoException;
 	
+	/**
+	 * This function finds the empty neighbors of the hexes that contain pieces of the same color.
+	 * Useful to determine to place a piece from off the board
+	 * @param color Color of the piece
+	 * @param pieces List of pieces in the game
+	 * @return List of possible hexes that can be placed
+	 */
 	protected List<HantoCoordinate> getEmptyNeighborsOfSameColor(HantoPlayerColor color, Map<HantoPiece, HantoCoordinate> pieces){
 		
 		List<HantoCoordinate> allPiecePlaced = new ArrayList<HantoCoordinate>();

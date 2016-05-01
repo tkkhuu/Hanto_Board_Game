@@ -22,12 +22,12 @@ import hanto.tournament.HantoMoveRecord;
 public class HantoPlayer implements HantoGamePlayer
 {
 	// =============== Game Properties ===============
-	private HantoGameID gameID;
+//	private HantoGameID gameID;
 	
 	// =============== Player Properties ===============
-	private HantoPlayerColor color;
-	private boolean moveFirst;
-	private EpsilonHantoAIPlayer myAIPlayer;
+//	private HantoPlayerColor color;
+//	private boolean moveFirst;
+	private HantoAIPlayer myAIPlayer;
 	
 	
 
@@ -39,8 +39,6 @@ public class HantoPlayer implements HantoGamePlayer
 	public void startGame(HantoGameID version, HantoPlayerColor myColor,
 			boolean doIMoveFirst)
 	{
-		System.out.println("startGame");
-		gameID = version;
 		myAIPlayer = new EpsilonHantoAIPlayer(myColor, doIMoveFirst);
 	}
 
@@ -50,6 +48,8 @@ public class HantoPlayer implements HantoGamePlayer
 	@Override
 	public HantoMoveRecord makeMove(HantoMoveRecord opponentsMove)
 	{
-		return myAIPlayer.makeMove(opponentsMove);
+		HantoMoveRecord move = myAIPlayer.makeMove(opponentsMove);
+
+		return move;
 	}
 }

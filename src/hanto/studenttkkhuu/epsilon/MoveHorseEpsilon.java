@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * This files was developed for CS4233: Object-Oriented Analysis & Design.
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************/
+
 package hanto.studenttkkhuu.epsilon;
 
 import static hanto.common.HantoPieceType.BUTTERFLY;
@@ -16,6 +26,11 @@ import hanto.common.HantoPrematureResignationException;
 import hanto.studenttkkhuu.common.AbsMoveHorse;
 import hanto.studenttkkhuu.common.HantoCoordinateImpl;
 
+/**
+ * 
+ * A class that takes care of moving a Horse in Epsilon Hanto
+ *
+ */
 public class MoveHorseEpsilon extends AbsMoveHorse{
 
 	public MoveHorseEpsilon(Map<HantoPiece, HantoCoordinate> pieces, int moveCount) {
@@ -30,8 +45,9 @@ public class MoveHorseEpsilon extends AbsMoveHorse{
 		if (source == null && destination == null) {
 			checkAvailableMove(color);
 
-			return null;
+			return pieces;
 		}
+		
 		
 		checkMoveValidity(source, destination, color);
 
@@ -52,7 +68,6 @@ public class MoveHorseEpsilon extends AbsMoveHorse{
 				}
 			}
 		} else {
-			
 			List<HantoCoordinate> path = getPath(source, destination);
 			HantoPiece temp = moveToHex(path, color);
 			pieces.put(temp, to);
@@ -122,14 +137,14 @@ public class MoveHorseEpsilon extends AbsMoveHorse{
 		
 		for (HantoPiece hc : pieces.keySet()) {
 			HantoCoordinate temp = pieces.get(hc);
-			if (temp != null && temp.equals(from) && hc.getColor() != color) {
+			if (temp != null && from != null && temp.equals(from) && hc.getColor() != color) {
 				throw new HantoException("You cannot move a piece of a different player");
 			}
 		}
 		
 		for (HantoPiece hc : pieces.keySet()) {
 			HantoCoordinate temp = pieces.get(hc);
-			if (temp != null && temp.equals(from) && hc.getType() != HORSE) {
+			if (temp != null && from != null && temp.equals(from) && hc.getType() != HORSE) {
 				throw new HantoException("You cannot change the type of a piece");
 			}
 		}
@@ -140,6 +155,8 @@ public class MoveHorseEpsilon extends AbsMoveHorse{
 		if (isNeighborHex(source, destination)) {
 			throw new HantoException("Horse must jump over occupied Hex");
 		}
+		
+	
 		
 		HantoCoordinate[] path = { source, destination };
 
@@ -178,58 +195,21 @@ public class MoveHorseEpsilon extends AbsMoveHorse{
 	private void checkAvailableMove(HantoPlayerColor color)
 			throws HantoPrematureResignationException {
 		
-		// If there are crab pieces not placed, check if any of them can be placed
-		HantoPiece horsePieceNotPlaced = null;
-		for (HantoPiece hp : pieces.keySet()) {
-			if (hp.getColor() == color && hp.getType() == HORSE && pieces.get(hp) == null) {
-				horsePieceNotPlaced = hp;
-				break;
-			}
-		}
-		if (horsePieceNotPlaced != null) {
-			List<HantoCoordinate> possibleMoves = getEmptyNeighborsOfSameColor(color, pieces);
-			int numberOfInvalidPath = 0;
-			for (HantoCoordinate toHex : possibleMoves) {
-				try{
-					movePiece(null, toHex, color);
-				} catch (HantoException he) {
-					numberOfInvalidPath++;
-				}
-				
-				pieces.put(horsePieceNotPlaced, null);
-				
-				if (numberOfInvalidPath < possibleMoves.size()) {
-					throw new HantoPrematureResignationException();
-				}
-			}
-		}
-		
 		// If the horse pieces cannot be placed or all used, check the pieces on the board for valid move
 		List<HantoPiece> horsePiecesPlaced = new ArrayList<HantoPiece>();
 		
 		for (HantoPiece p : pieces.keySet()) {
-			if (p.getColor() == color && p.getType() == HORSE && pieces.get(p) != null) {
+			if (p.getColor() == color && p.getType() == HORSE){// && pieces.get(p) != null) {
 				horsePiecesPlaced.add(p);
 			}
 		}
 		
 		for (HantoPiece horsePiece : horsePiecesPlaced) {
 
-			final HantoCoordinateImpl horsePieceHCI = new HantoCoordinateImpl(pieces.get(horsePiece));
-			List<HantoCoordinate> possibleMoves = getPossibleMove(horsePieceHCI);
-			int numberOfInvalidPath = 0;
-			for (HantoCoordinate toHex : possibleMoves) {
-				
-				try {
-					movePiece(horsePieceHCI, toHex, color);
-				} catch (HantoException he) {
-					
-					numberOfInvalidPath++;
-				}
-				pieces.put(horsePiece, horsePieceHCI);
-			}
+			List<HantoCoordinate> possibleMoves = getPossibleMoves(color, pieces, horsePiece);
+			int numberOfInvalidPath = possibleMoves.size();
 			
-			if (numberOfInvalidPath < possibleMoves.size()) {
+			if (numberOfInvalidPath > 0) {
 				throw new HantoPrematureResignationException();
 			}
 		}
@@ -297,7 +277,8 @@ public class MoveHorseEpsilon extends AbsMoveHorse{
 				possibleMoves.add(northWestMove);
 				foundNorthWest = true;
 			} else {
-				xNorthWest--; yNorthWest++;
+				xNorthWest--; 
+				yNorthWest++;
 				northWestMove = new HantoCoordinateImpl(xNorthWest, yNorthWest);
 			}
 			
@@ -305,14 +286,24 @@ public class MoveHorseEpsilon extends AbsMoveHorse{
 				possibleMoves.add(southEastMove);
 				foundSouthEast = true;
 			} else {
-				xSouthEast++; ySouthEast--;
+				xSouthEast++; 
+				ySouthEast--;
 				southEastMove = new HantoCoordinateImpl(xSouthEast, ySouthEast);
 			}
 		}
 		return possibleMoves;
 	}
 	
+	/**
+	 * Get the possible moves of a specific piece
+	 * @param color Color of the piece
+	 * @param pieces List of pieces in the game
+	 * @param horsePiece Piece to be made
+	 * @return List of hexes the piece can move to
+	 */
 	public List<HantoCoordinate> getPossibleMoves(HantoPlayerColor color, Map<HantoPiece, HantoCoordinate> pieces, HantoPiece horsePiece) {
+		//Map<HantoPiece, HantoCoordinate> pieces = piecesList;
+		
 		if (pieces.get(horsePiece) == null) { // This piece has not been placed
 			List<HantoCoordinate> possibleMoves = getEmptyNeighborsOfSameColor(color, pieces);
 			List<HantoCoordinate> possibleValidMoves = new ArrayList<HantoCoordinate>();
@@ -321,7 +312,8 @@ public class MoveHorseEpsilon extends AbsMoveHorse{
 					movePiece(null, toHex, color);
 					possibleValidMoves.add(toHex);
 				} catch (HantoException he) {
-					he.printStackTrace();
+					System.out.print("");
+					//he.printStackTrace();
 				}
 				pieces.put(horsePiece, null);
 			}
@@ -339,7 +331,8 @@ public class MoveHorseEpsilon extends AbsMoveHorse{
 					movePiece(horsePieceHCI, toHex, color);
 					possibleValidMoves.add(toHex);
 				} catch (HantoException he) {
-					he.printStackTrace();
+					System.out.print("");
+					//he.printStackTrace();
 				}
 				pieces.put(horsePiece, horsePieceHCI);
 			}

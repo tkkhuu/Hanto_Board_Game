@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * This files was developed for CS4233: Object-Oriented Analysis & Design.
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************/
+
 package hanto.studenttkkhuu.epsilon;
 
 import static hanto.common.HantoPieceType.BUTTERFLY;
@@ -16,6 +26,9 @@ import hanto.common.HantoPrematureResignationException;
 import hanto.studenttkkhuu.common.AbsMoveSparrow;
 import hanto.studenttkkhuu.common.HantoCoordinateImpl;
 
+/**
+ * A class that takes care of moving a Sparrow in Epsilon Hanto
+ */
 public class MoveSparrowEpsilon extends AbsMoveSparrow{
 
 	public MoveSparrowEpsilon(Map<HantoPiece, HantoCoordinate> pieces, int moveCount) {
@@ -31,7 +44,7 @@ public class MoveSparrowEpsilon extends AbsMoveSparrow{
 
 			checkAvailableMove(color);
 			
-			return null;
+			return pieces;
 		}
 		
 		return super.movePiece(source, destination, color);
@@ -134,56 +147,20 @@ public class MoveSparrowEpsilon extends AbsMoveSparrow{
 	
 	private void checkAvailableMove(HantoPlayerColor color)
 			throws HantoPrematureResignationException {
-		
-		// If there are crab pieces not placed, check if any of them can be placed
-		HantoPiece sparrowPieceNotPlaced = null;
-		for (HantoPiece hp : pieces.keySet()) {
-			if (hp.getColor() == color && hp.getType() == SPARROW && pieces.get(hp) == null) {
-				sparrowPieceNotPlaced = hp;
-				break;
-			}
-		}
-		if (sparrowPieceNotPlaced != null) {
-			List<HantoCoordinate> possibleMoves = getEmptyNeighborsOfSameColor(color, pieces);
-			int numberOfInvalidPath = 0;
-			for (HantoCoordinate toHex : possibleMoves) {
-				try{
-					movePiece(null, toHex, color);
-				} catch (HantoException he) {
-					numberOfInvalidPath++;
-				}
-				pieces.put(sparrowPieceNotPlaced, null);
-				if (numberOfInvalidPath < possibleMoves.size()) {
-					throw new HantoPrematureResignationException();
-				}
-			}
-		}
-		
-		// If the crab pieces cannot be placed or all used, check the pieces on the board for valid move
+
 		List<HantoPiece> sparrowPiecesPlaced = new ArrayList<HantoPiece>();
 		
 		for (HantoPiece p : pieces.keySet()) {
-			if (p.getColor() == color && p.getType() == SPARROW && pieces.get(p) != null) {
+			if (p.getColor() == color && p.getType() == SPARROW){// && pieces.get(p) != null) {
 				sparrowPiecesPlaced.add(p);
 			}
 		}
 		
 		for (HantoPiece sparrowPiece : sparrowPiecesPlaced) {
-
-			final HantoCoordinateImpl sparrowPieceHCI = new HantoCoordinateImpl(pieces.get(sparrowPiece));
-			List<HantoCoordinate> possibleMoves = getPossibleMove(sparrowPieceHCI);
-			int numberOfInvalidPath = 0;
-			for (HantoCoordinate toHex : possibleMoves) {
-				try {
-					movePiece(sparrowPieceHCI, toHex, color);
-				} catch (HantoException he) {
-					
-					numberOfInvalidPath++;
-				}
-				pieces.put(sparrowPiece, sparrowPieceHCI);
-			}
+			List<HantoCoordinate> possibleMoves = getPossibleMoves(color, pieces, sparrowPiece);
+			int numberOfValidPath = possibleMoves.size();
 			
-			if (numberOfInvalidPath < possibleMoves.size()) {
+			if (numberOfValidPath >0 ) {
 				throw new HantoPrematureResignationException();
 			}
 		}
@@ -254,6 +231,14 @@ public class MoveSparrowEpsilon extends AbsMoveSparrow{
 		
 	}
 
+	
+	/**
+	 * Get the possible moves of a specific piece
+	 * @param color Color of the piece
+	 * @param pieces List of pieces in the game
+	 * @param sparrowPiece Piece to be made
+	 * @return List of hexes the piece can move to
+	 */
 	public List<HantoCoordinate> getPossibleMoves(HantoPlayerColor color, Map<HantoPiece, HantoCoordinate> pieces, HantoPiece sparrowPiece) {
 		if (pieces.get(sparrowPiece) == null) { // This piece has not been placed
 			List<HantoCoordinate> possibleMoves = getEmptyNeighborsOfSameColor(color, pieces);
@@ -263,7 +248,8 @@ public class MoveSparrowEpsilon extends AbsMoveSparrow{
 					movePiece(null, toHex, color);
 					possibleValidMoves.add(toHex);
 				} catch (HantoException he) {
-					he.printStackTrace();
+					System.out.print("");
+					//he.printStackTrace();
 				}
 				pieces.put(sparrowPiece, null);
 			}
@@ -281,7 +267,8 @@ public class MoveSparrowEpsilon extends AbsMoveSparrow{
 					movePiece(sparrowPieceHCI, toHex, color);
 					possibleValidMoves.add(toHex);
 				} catch (HantoException he) {
-					he.printStackTrace();
+					System.out.print("");
+//					he.printStackTrace();
 				}
 				pieces.put(sparrowPiece, sparrowPieceHCI);
 			}

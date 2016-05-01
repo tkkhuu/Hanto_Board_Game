@@ -31,7 +31,7 @@ public class HantoGameFactory
 	/**
 	 * Default private descriptor.
 	 */
-	protected HantoGameFactory()
+	private HantoGameFactory()
 	{
 		// Empty, but the private constructor is necessary for the singleton.
 	}

@@ -1,9 +1,19 @@
+/*******************************************************************************
+ * This files was developed for CS4233: Object-Oriented Analysis & Design.
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************/
+
 package hanto.studenttkkhuu.epsilon;
 
 import static hanto.common.HantoPieceType.BUTTERFLY;
 import static hanto.common.HantoPieceType.CRAB;
-import static hanto.common.HantoPieceType.SPARROW;
 import static hanto.common.HantoPieceType.HORSE;
+import static hanto.common.HantoPieceType.SPARROW;
 import static hanto.common.HantoPlayerColor.BLUE;
 import static hanto.common.HantoPlayerColor.RED;
 import static hanto.common.MoveResult.BLUE_WINS;
@@ -16,11 +26,14 @@ import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
 import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
-import hanto.common.HantoPrematureResignationException;
 import hanto.common.MoveResult;
 import hanto.studenttkkhuu.common.BaseHanto;
 import hanto.studenttkkhuu.common.HantoPieceImpl;
 
+/**
+ * An implementation of Epsilon Hanto Game
+ *
+ */
 public class EpsilonHantoGame extends BaseHanto {
 
 	public EpsilonHantoGame () {
@@ -90,55 +103,31 @@ public class EpsilonHantoGame extends BaseHanto {
 		return OK;
 	}
 
-	private void checkValidResignation(HantoCoordinate source, HantoCoordinate destination) throws HantoException, HantoPrematureResignationException {
+	private void checkValidResignation(HantoCoordinate source, HantoCoordinate destination) throws HantoException {
 		
 		// ========== Check if player can still move butterfly ==========
-		try {
-			createMove(BUTTERFLY, source, destination);
-			whichColor = whichColor == RED ? BLUE : RED;
-			moveCount--;
-		} catch (HantoException he) {
-			if (he instanceof HantoPrematureResignationException) {
-				throw new HantoPrematureResignationException();
-			}
-		}
-		
-			
+
+		createMove(BUTTERFLY, source, destination);
+		whichColor = (whichColor == RED ? BLUE : RED);
+		moveCount--;
+
 		// ========== Check if player can still move sparrow ==========
-		try {
-			// Player can still move sparrow
-			createMove(SPARROW, source, destination);
-			whichColor = whichColor == RED ? BLUE : RED;
-			moveCount--;
-		} catch (HantoException he) {
-			if (he instanceof HantoPrematureResignationException) {
-				throw new HantoPrematureResignationException();
-			}
-		}
-		
-		
+
+		// Player can still move sparrow
+		createMove(SPARROW, source, destination);
+		whichColor = (whichColor == RED ? BLUE : RED);
+		moveCount--;
+
 		// ========== Check if player can still move horse ==========
-		try {
-			createMove(HORSE, source, destination);
-			whichColor = whichColor == RED ? BLUE : RED;
-			moveCount--;
-		} catch (HantoException he) {
-			if (he instanceof HantoPrematureResignationException) {
-				throw new HantoPrematureResignationException();
-			}
-		}
-		
+
+		createMove(HORSE, source, destination);
+		whichColor = (whichColor == RED ? BLUE : RED);
+		moveCount--;
+
 		// ========== Check if player can still move crab ==========
-		try {
-			createMove(CRAB, source, destination);
-			whichColor = whichColor == RED ? BLUE : RED;
-			moveCount--;
-		} catch (HantoException he) {
-			if (he instanceof HantoPrematureResignationException) {
-				throw new HantoPrematureResignationException();
-			}
-		}
-		
-		
+
+		createMove(CRAB, source, destination);
+		whichColor = (whichColor == RED ? BLUE : RED);
+		moveCount--;
 	}
 }

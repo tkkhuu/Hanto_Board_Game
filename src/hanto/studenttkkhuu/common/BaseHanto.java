@@ -163,6 +163,13 @@ public abstract class BaseHanto implements HantoGame {
 		return null;
 	}
 
+	/**
+	 * This function makes the move after checking it is a valid move
+	 * @param pieceType Piece to be made
+	 * @param source Where the piece move from
+	 * @param destination Where the piece move to
+	 * @throws HantoException Any exception encountered
+	 */
 	protected void createMove(HantoPieceType pieceType, HantoCoordinate source, HantoCoordinate destination)
 			throws HantoException {
 		
